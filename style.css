@@ -50,6 +50,18 @@ footer {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    gap: 1rem;
+    padding: 50px 82px 128px 82px;
+    transform: translateY(55%);
+}
+
+.footer-content i {
+    font-size: 1.75rem;
+}
+
+.source-code a {
+    text-decoration: none;
+    color: white;
 }
 
 /* -----------------------------------footer-- */
