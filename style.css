@@ -4,9 +4,13 @@
     box-sizing: border-box;
 }
 
+:root {
+    --green: rgb(0, 160, 0);
+}
+
 /* ------ styles bg of header and footer  */
 .fluid-container {
-    background-color: rgb(0, 160, 0);
+    background-color: var(--green);
     color: white;
     border-radius: 100%;
 }
@@ -14,9 +18,11 @@
 /* -----------------------------------header-- */
 
 header {
+    position: absolute;
     display: flex;
     justify-content: center;
     width: 100%;
+    z-index: 2;
 }
 
 .header-content {
@@ -34,6 +40,48 @@ header {
 
 /* -----------------------------------header-- */
 
+main {
+    position: relative;
+    z-index: 1;
+}
+
+/* -------------graph container--------------- */
+
+.graph-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+}
+
+/* 
+.input-container,
+.output-container {
+    flex: 1;
+} */
+
+.input-container {
+    background-color: red;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 100vh;
+    width: 45vw;
+}
+
+.output-container {
+    background-color: yellow;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    height: 100vh;
+    width: 55vw;
+}
+
+
+/* -------------graph container--------------- */
 
 
 /* -----------------------------------footer-- */
@@ -44,14 +92,15 @@ footer {
     width: 100vw;
     display: flex;
     justify-content: center;
+    z-index: 2;
 }
 
 .footer-content {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    gap: 1rem;
-    padding: 50px 82px 128px 82px;
+    gap: 3rem;
+    padding: 50px 92px 128px 92px;
     transform: translateY(55%);
 }
 
@@ -62,6 +111,43 @@ footer {
 .source-code a {
     text-decoration: none;
     color: white;
+}
+
+.footer-form-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#footer-form-button {
+    border: none;
+    background-color: transparent;
+    color: inherit;
+    cursor: pointer;
+}
+
+.footer-form {
+    background-color: var(--green);
+    color: white;
+    padding: 1rem;
+    height: 60vh;
+    width: 70vw;
+}
+
+.footer-form-header {
+    display: flex;
+}
+
+.footer-form-content {
+    display: flex;
+    flex-direction: column;
 }
 
 /* -----------------------------------footer-- */
