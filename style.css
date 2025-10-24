@@ -8,12 +8,26 @@
     --green: rgb(0, 160, 0);
 }
 
+a{
+    text-decoration: none;
+}
+
 /* ------ styles bg of header and footer  */
 .fluid-container {
     background-color: var(--green);
     color: white;
     border-radius: 100%;
 }
+
+header, footer {
+    pointer-events: none;
+}
+
+/* Enable clicks on actual interactive elements inside header/footer */
+header * , footer * {
+    pointer-events: auto;
+}
+
 
 /* -----------------------------------header-- */
 
@@ -36,6 +50,7 @@ header {
     justify-content: center;
     align-items: center;
     padding: 128px 82px 50px 82px;
+    color: white;
 }
 
 /* -----------------------------------header-- */
@@ -56,14 +71,13 @@ main {
     display: flex;
 }
 
-/* 
+
 .input-container,
 .output-container {
-    flex: 1;
-} */
+    padding: 2rem;
+}
 
 .input-container {
-    background-color: red;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -72,7 +86,6 @@ main {
 }
 
 .output-container {
-    background-color: yellow;
     display: flex;
     flex-direction: column;
     align-items: flex-end;

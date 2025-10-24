@@ -14,15 +14,38 @@
 <body>
     <header>
         <div class="fluid-container header-content">
-            <h1 id="title">GRAPH VISUALIZER</h1>
+            <a href="/"><h1 id="title">GRAPH VISUALIZER</h1></a>
         </div>
     </header>
     <main class="graph-container">
         <section class="input-container">
             <h2>Graph input</h2>
-            <form action="">
-                <label for="graph-input-area"></label>
-                <textarea name="graph-input-area" id="graph-input-area" rows="10"></textarea>
+            <form action="" class="graph-input-form">
+                <div class="graph-type">
+                    <span>Graph Type:</span>
+                    <input type="radio" id="directed" name="graph-type" value="directed">
+                    <label for="directed">Directed</label>
+            
+                    <input type="radio" id="undirected" name="graph-type" value="undirected" checked>
+                    <label for="undirected">UnDirected</label>
+                    <br>
+                </div>
+                <div class="graph-weight">
+                    <span>Weighted Graph:</span>
+                    <input type="radio" id="weighted" name="graph-weight" value="weighted">
+                    <label for="weighted">Yes</label>
+
+                    <input type="radio" id="non-weighted" name="graph-weight" value="non-weighted" checked>
+                    <label for="non-weighted">No</label>
+                    <br>
+                </div>
+                <div class="graph-input-container">
+                    <label for="graph-input-area">Enter edges:</label><br>
+                    <textarea name="graph-input-area" id="graph-input-area" rows="10"></textarea>
+                    
+                </div>
+
+                <button type="submit">Visualize</button>
             </form>
         </section>
         <section class="output-container">
