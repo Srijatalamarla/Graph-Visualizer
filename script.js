@@ -1,9 +1,13 @@
 
-const graphInputArea = document.getElementById('graph-input-area');
+
+/*------- graph input placeholder functionality ------*/
+
+const graphInputArea = document.getElementById('graph-input');
 const graphWeightRadios = document.querySelectorAll('input[name="graph-weight"]');
 
 function updateGraphPlaceholder() {
     const selectedWeight = document.getElementById('weighted').checked;
+    graphInputArea.value = ``; //clear if any value is present
     console.log("update")
 
     if (selectedWeight) {
@@ -17,10 +21,42 @@ function updateGraphPlaceholder() {
 }
 
 // Set placeholder on page load
-document.addEventListener('DOMContentLoaded', updateGraphPlaceholder);
+window.addEventListener('load', updateGraphPlaceholder);
 
 // Update placeholder on radio change
 graphWeightRadios.forEach(radio => radio.addEventListener('change', updateGraphPlaceholder));
+
+
+/*------- graph input placeholder functionality ------*/
+
+
+
+
+
+/*------- graph input parsing into JSON functionality ------*/
+
+const form = document.getElementById("graph-input-form");
+const graphInputJSON = {};
+
+form.addEventListener('submit', convertIntoJSON);
+
+function convertIntoJSON(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+
+    formData.forEach((value, key) => {
+        graphInputJSON[key] = value;
+    })
+
+    console.log(graphInputJSON);
+}
+
+
+
+/*------- graph input parsing into JSON functionality ------*/
+
+
+
 
 
 /*------- footer form related functionality ------*/
