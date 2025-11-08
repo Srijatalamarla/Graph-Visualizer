@@ -103,6 +103,10 @@ button {
     cursor: pointer;
 }
 
+div > input:focus {
+    border: none;
+}
+
 
 /* -------------graph container--------------- */
 
