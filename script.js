@@ -1,5 +1,4 @@
 const form = document.getElementById("graph-input-form");
-const graphInputJSON = {};
 
 const graphInputArea = document.getElementById('graph-input');
 const graphWeightBtns = document.querySelectorAll('input[name="graph-weight"]');
@@ -44,15 +43,47 @@ graphWeightBtns.forEach(btn => btn.addEventListener('change', updateGraphPlaceho
 
 function convertIntoJSON(event) {
     event.preventDefault();
-    const formData = new FormData(event.target);
 
-    formData.forEach((value, key) => {
-        graphInputJSON[key] = value;
-    })
+    const graphInputJSON = {};
+
+    const isDirected = document.getElementById('directed').checked;
+    graphInputJSON["directed"] = isDirected;
+
+    const isWeighted = document.getElementById('weighted').checked;
+    graphInputJSON["weighted"] = isWeighted;
+
+    
+    const graphEdges = graphInputArea.value.trim();
+    const edges = graphEdges.split("\n");
+    const edgeList = [];
+    const nodeSet = new Set();
+
+    edges.forEach((edge) => {
+        if (!edge.trim()) return;  
+        
+        const vertices = edge.trim().split(/\s+/);
+        if (vertices.length < 2) return;
+
+        const from = vertices[0];
+        const to = vertices[1];
+
+        if (isWeighted) {
+            const weight = vertices[2];
+            edgeList.push({ "from": from, "to": to, "weight": weight });
+        } else {
+            edgeList.push({ "from": from, "to": to });
+        }
+
+        nodeSet.push(from);
+        nodeSet.push(to);
+    });
+
+
+    graphInputJSON["edges"] = edgeList;
+    graphInputJSON["nodes"] = Array.from(nodeSet);
 
     console.log(graphInputJSON);
 }
-
 
 
 /*------- graph input parsing into JSON functionality ------*/
@@ -70,61 +101,48 @@ function validateInput(event) {
 
     let errorList = [];
 
+
+    //check graph type
     if( !graphTypeBtns[0].checked && !graphTypeBtns[1].checked) {
         isValid = false;
 
-        const errorElement = document.createElement('li');
-
-        const link = document.createElement('a');
-        link.href = '#graph-type';
-        link.textContent = 'Please select Graph Type';
-        link.addEventListener('click', () => highlightErrorDiv(graphTypeElement));
-
-        errorElement.appendChild(link);
+        const errorElement = createErrorElement('#graph-type', 'Please select Graph Type', graphTypeElement);
         errorList.push(errorElement);
-
-        //higlight with color
     }
 
+
+    //check graph weight
     if( !graphWeightBtns[0].checked && !graphWeightBtns[1].checked) {
         isValid = false;
 
-        const errorElement = document.createElement('li');
-        
-        const link = document.createElement('a');
-        link.href = '#graph-weight';
-        link.textContent = 'Please select Graph Weight';
-        link.addEventListener('click', () => highlightErrorDiv(graphWeightElement));
-
-        errorElement.appendChild(link);
+        const errorElement = createErrorElement('#graph-weight', 'Please select Graph Weight', graphWeightElement);
         errorList.push(errorElement);
 
-        
-        //higlight with color
     }
 
+
+    // check graph edges
     const graphEdges = graphInputArea.value;
-    if(graphEdges !== "") {
-        console.log(graphEdges.split("\n"));
-    }
-    else {
+    const isWeighted = document.getElementById('weighted').checked;
+
+    if(graphEdges.trim() === "") {
         isValid = false;
 
-        const errorElement = document.createElement('li');
+        const errorElement = createErrorElement('#graph-input', 'Please enter Graph Edges', graphEdgesElement);
         
-        const link = document.createElement('a');
-        link.href = '#graph-input';
-        link.textContent = 'Please Enter Graph Edges';
-        link.addEventListener('click', () => highlightErrorDiv(graphEdgesElement));
-
-        errorElement.appendChild(link);
         errorList.push(errorElement);
+    }
+    else if(checkEdgesFormat(graphEdges, isWeighted) == false) {
+        isValid = false;
 
-        
-        //higlight with color
+        const errrorElement = createErrorElement('#graph-input', 'Invalid Format', graphEdgesElement);
+
+        errorList.push(errrorElement);
     }
 
 
+
+    //if all are valid
     if (isValid)
         convertIntoJSON(event)
     else {
@@ -135,32 +153,56 @@ function validateInput(event) {
         const errorListElement = document.createElement('ul');
         errorList.forEach((err) => errorListElement.appendChild(err));
         errorMsg.appendChild(errorListElement);
-        document.querySelector("#error").appendChild(errorMsg);
+        
+        //add to page
+        const errorDiv = document.querySelector("#error");
+        errorDiv.innerHTML = ``;
+        errorDiv.replaceChildren(errorMsg);
     }
 }
 
+function checkEdgesFormat(value, isWeighted) {
+    const pattern = isWeighted
+        ? /^(\s*\d+\s+\d+\s+\d+\s*\n?)+$/       // weighted: 3 numbers
+        : /^(\s*\d+\s+\d+\s*\n?)+$/;            // non-weighted: 2 numbers
+    return pattern.test(value.trim());
+}
+
+function createErrorElement(href, textContent, container) {
+    const errorElement = document.createElement('li');
+        
+    const link = document.createElement('a');
+    link.href = href;
+    link.textContent = textContent;
+    link.addEventListener('click', () => highlightErrorDiv(container));
+
+    errorElement.appendChild(link);
+
+    return errorElement;
+}
 
 function highlightErrorDiv(divElement) {
-    divElement.style.border = '1px solid red';
+    divElement.classList.add("error");
 }
 
 //remove highlight when input is entered
 graphTypeBtns.forEach((btn) => {
     btn.addEventListener('change', () => {
-        graphTypeElement.style.border = 'none'
-
-        //again validate
-        validateInput();
+        if (graphTypeElement.classList.contains("error"))
+            graphTypeElement.classList.remove("error");
     });
 });
 
 graphWeightBtns.forEach((btn) => {
-    btn.addEventListener('change', () => {graphWeightElement.style.border = 'none'});
+    btn.addEventListener('change', () => {
+        if(graphWeightElement.classList.contains("error"))
+            graphWeightElement.classList.remove("error");
+    });
 });
 
 graphInputArea.addEventListener('input', () => {
-    if (graphInputArea.value.trim() !== "") {
-        graphEdgesElement.style.border = 'none';
+    if (graphInputArea.value.trim() !== "" && graphEdgesElement.classList.contains("error")) {
+        graphEdgesElement.classList.remove("error");
     }
 });
 /*------- graph input validation ------*/

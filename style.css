@@ -103,10 +103,9 @@ button {
     cursor: pointer;
 }
 
-div > input:focus {
-    border: none;
+.error {
+    border: 1px solid red;
 }
-
 
 /* -------------graph container--------------- */
 
