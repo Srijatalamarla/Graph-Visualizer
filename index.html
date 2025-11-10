@@ -70,14 +70,20 @@
                     <p>Have any query? Or</p>
                     <p>Wanna say something...</p>
                 </div>
-                <button onclick="closeFooterForm()">close</button>
+                <button onclick="closeFooterForm()" class="footer-form-close"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="footer-form-content">
-                <label for="footer-form-title">Title</label>
-                <input type="text" name="footer-form-title" id="footer-form-title" placeholder="Share your thoughts here...">
+                <div class="footer-form-item">
+                    <label for="footer-form-title">Title</label>
+                    <input type="text" name="footer-form-title" id="footer-form-title" placeholder="Share your thoughts here...">
+                </div>
 
-                <label for="footer-form-description">Description</label>
-                <textarea name="footer-form-description" id="footer-form-description" rows="5" placeholder="Provide details here..."></textarea>
+                <div class="footer-form-item"> 
+                    <label for="footer-form-description">Description</label>
+                    <textarea name="footer-form-description" id="footer-form-description" rows="5" placeholder="Provide details here..."></textarea>
+                </div>
+
+                <button type="submit" class="footer-form-submit">Submit</button>
             </div>
         </form>
     </div>

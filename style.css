@@ -2,6 +2,7 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    font-family: "Doto", sans-serif;
 }
 
 :root {
@@ -11,6 +12,10 @@
 
 a{
     text-decoration: none;
+}
+
+button {
+    background-color: transparent;
 }
 
 /* ------ styles bg of header and footer  */
@@ -46,7 +51,6 @@ header {
 }
 
 #title {
-    font-family: "Doto", sans-serif;
     font-weight: 750;
     display: flex;
     justify-content: center;
@@ -60,6 +64,8 @@ header {
 main {
     position: relative;
     z-index: 1;
+    color: var(--darkGreen);
+    font-weight: 700;
 }
 
 /* -------------graph container--------------- */
@@ -165,15 +171,69 @@ footer {
     padding: 1rem;
     height: 60vh;
     width: 70vw;
+    border-radius: 16px;
+    font-weight: 700
 }
 
 .footer-form-header {
     display: flex;
+    justify-content: space-between;
 }
 
 .footer-form-content {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 10px 0px 0px;
+}
+
+.footer-form-header-content {
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+}
+
+.footer-form-item {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.footer-form-item label {
+    font-size: 1.2rem;
+}
+
+#footer-form-title, #footer-form-description {
+    padding: 8px;
+    border-radius: 12px;
+    border: none;
+}
+
+.footer-form button {
+    color: white;
+    border: none;
+}
+
+.footer-form-close {
+    font-size: 1.25rem;
+    padding: 0.25rem 1.25rem;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+}
+
+.footer-form-close:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.footer-form-submit {
+    padding: 1rem;
+    width: 50%;
+    border-radius: 1rem;
+    font-weight: 700;
+}
+
+.footer-form-submit:hover {
+    background-color: rgba(255, 255, 255, 0.3);
 }
 
 /* -----------------------------------footer-- */
