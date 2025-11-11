@@ -20,39 +20,42 @@
     <main class="graph-container">
         <section class="input-container">
             <h2>Graph input</h2>
-            <form action="" class="graph-input-form" id="graph-input-form">
-                <div class="graph-type" id="graph-type">
-                    <span>Graph Type:</span>
-                    <input type="radio" id="directed" name="graph-type" value="directed">
-                    <label for="directed">Directed</label>
-            
-                    <input type="radio" id="undirected" name="graph-type" value="undirected" checked>
-                    <label for="undirected">UnDirected</label>
-                    <br>
-                </div>
-                <div class="graph-weight" id="graph-weight">
-                    <span>Weighted Graph:</span>
-                    <input type="radio" id="weighted" name="graph-weight" value="weighted">
-                    <label for="weighted">Yes</label>
-
-                    <input type="radio" id="non-weighted" name="graph-weight" value="non-weighted" checked>
-                    <label for="non-weighted">No</label>
-                    <br>
-                </div>
-                <div class="graph-input-container" id="graph-edges">
-                    <label for="graph-input">Enter edges:</label><br>
-                    <textarea name="graph-input" id="graph-input" rows="10"></textarea>
+            <div class="graph-input-outer-container">
+                <form action="" class="graph-input-form" id="graph-input-form">
+                    <div class="graph-input-item graph-type" id="graph-type">
+                        <span>Graph Type:</span>
+                        <div>
+                            <input type="radio" id="directed" name="graph-type" value="directed">
+                            <label for="directed">Directed</label>
                     
-                </div>
-
-                <button type="submit">Visualize</button>
-                <button type="reset">Clear/Reset</button>
-            </form>
-            <div id="error"></div>
+                            <input type="radio" id="undirected" name="graph-type" value="undirected" checked>
+                            <label for="undirected">UnDirected</label>
+                        </div>
+                    </div>
+                    <div class="graph-input-item graph-weight" id="graph-weight">
+                        <span>Weighted Graph:</span>
+                        <div>
+                            <input type="radio" id="weighted" name="graph-weight" value="weighted">
+                            <label for="weighted">Yes</label>
+                 
+                            <input type="radio" id="non-weighted" name="graph-weight" value="non-weighted" checked>
+                            <label for="non-weighted">No</label>
+                        </div>
+                    </div>
+                    <div class="graph-input-item graph-input-container" id="graph-edges">
+                        <label for="graph-input">Enter edges:</label><br>
+                        <textarea name="graph-input" id="graph-input" rows="15"></textarea>
+                
+                    </div>
+                    <button type="submit" class="graph-input-form-btn">Visualize</button>
+                    <button type="reset" class="graph-input-form-btn">Clear/Reset</button>
+                </form>
+                <div id="error"></div>
+            </div>
         </section>
         <section class="output-container">
             <h2>Graph output</h2>
-            <div>Graph display area</div>
+            <div class="graph-output-outer-container">Graph display area</div>
         </section>
     </main>
     <footer>

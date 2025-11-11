@@ -64,7 +64,6 @@ header {
 main {
     position: relative;
     z-index: 1;
-    color: var(--darkGreen);
     font-weight: 700;
 }
 
@@ -82,7 +81,8 @@ main {
 
 .input-container,
 .output-container {
-    padding: 2rem;
+    padding: 1rem;
+    color: var(--darkGreen);
 }
 
 .input-container {
@@ -90,7 +90,7 @@ main {
     flex-direction: column;
     align-items: flex-start;
     height: 100vh;
-    width: 45vw;
+    width: 30vw;
 }
 
 .output-container {
@@ -98,7 +98,7 @@ main {
     flex-direction: column;
     align-items: flex-end;
     height: 100vh;
-    width: 55vw;
+    width: 70vw;
 }
 
 label {
@@ -109,8 +109,66 @@ button {
     cursor: pointer;
 }
 
+input[type="radio"]:checked {
+    accent-color: var(--darkGreen);
+}
+
 .error {
     border: 1px solid red;
+}
+
+.input-container h2, .output-container h2 {
+    padding: 1rem 3rem;
+    background-color: var(--green);
+    color: white;
+    border-top-left-radius: 3rem;
+    border-top-right-radius: 3rem;
+}
+
+.graph-input-outer-container, .graph-output-outer-container {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid var(--green);
+    width: 100%;
+    flex: 1;
+    padding: 1rem;
+}
+
+.graph-output-outer-container {
+    align-items: flex-end;
+}
+
+.graph-input-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+
+.graph-input-form-btn {
+    background-color: var(--green);
+    color: white;
+    padding: 0.5rem 1rem;
+    font-size: 1.2rem;
+    font-weight: 800;
+    outline: none;
+    border: none;
+}
+
+#graph-input {
+    background-color: var(--green);
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 1rem;
+    outline: none;
+    border: none;
+    border-radius: 1rem;
+}
+
+#graph-input::placeholder {
+    color: white;
 }
 
 /* -------------graph container--------------- */
@@ -206,7 +264,17 @@ footer {
 #footer-form-title, #footer-form-description {
     padding: 8px;
     border-radius: 12px;
-    border: none;
+    border: 1px solid white;
+    background-color: transparent;
+    outline: none;
+    caret-color: white;
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+#footer-form-title::placeholder, #footer-form-description::placeholder {
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .footer-form button {
@@ -230,6 +298,7 @@ footer {
     width: 50%;
     border-radius: 1rem;
     font-weight: 700;
+    font-size: 1.2rem;
 }
 
 .footer-form-submit:hover {
