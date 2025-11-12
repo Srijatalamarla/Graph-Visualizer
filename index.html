@@ -47,8 +47,10 @@
                         <textarea name="graph-input" id="graph-input" rows="15"></textarea>
                 
                     </div>
-                    <button type="submit" class="graph-input-form-btn">Visualize</button>
-                    <button type="reset" class="graph-input-form-btn">Clear/Reset</button>
+                    <div>
+                        <button type="submit" class="graph-input-form-btn">Visualize</button>
+                        <button type="reset" class="graph-input-form-btn" onclick="return resetForm()">Clear/Reset</button>
+                    </div>
                 </form>
                 <div id="error"></div>
             </div>

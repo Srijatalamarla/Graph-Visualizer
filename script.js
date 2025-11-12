@@ -8,6 +8,9 @@ const graphTypeElement = document.getElementById("graph-type");
 const graphWeightElement = document.getElementById("graph-weight");
 const graphEdgesElement = document.getElementById("graph-edges");
 
+
+const errorDiv = document.querySelector("#error");
+
 /*------- graph input placeholder functionality ------*/
 
 
@@ -155,7 +158,6 @@ function validateInput(event) {
         errorMsg.appendChild(errorListElement);
         
         //add to page
-        const errorDiv = document.querySelector("#error");
         errorDiv.innerHTML = ``;
         errorDiv.replaceChildren(errorMsg);
     }
@@ -206,6 +208,24 @@ graphInputArea.addEventListener('input', () => {
     }
 });
 /*------- graph input validation ------*/
+
+
+/*------- clear graph input ------*/
+function resetForm() {
+
+    form.reset();
+
+    errorDiv.innerHTML = ``;
+
+    //remove error highlight if any
+    graphTypeElement.classList.remove("error");
+    graphWeightElement.classList.remove("error");
+    graphEdgesElement.classList.remove("error");
+
+    updateGraphPlaceholder();
+}
+/*------- clear graph input ------*/
+
 
 
 /*------- footer form related functionality ------*/
