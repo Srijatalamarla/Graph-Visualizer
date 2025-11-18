@@ -77,8 +77,8 @@ function convertIntoJSON(event) {
             edgeList.push({ "from": from, "to": to });
         }
 
-        nodeSet.push(from);
-        nodeSet.push(to);
+        nodeSet.add(from);
+        nodeSet.add(to);
     });
 
 
@@ -86,6 +86,7 @@ function convertIntoJSON(event) {
     graphInputJSON["nodes"] = Array.from(nodeSet);
 
     console.log(graphInputJSON);
+    drawGraph(graphInputJSON);
 }
 
 
@@ -225,6 +226,16 @@ function resetForm() {
     updateGraphPlaceholder();
 }
 /*------- clear graph input ------*/
+
+
+/*------- draw graph  ------*/
+
+function drawGraph(graph) {
+    console.log("Draw")
+}
+
+
+/*------- draw graph  ------*/
 
 
 

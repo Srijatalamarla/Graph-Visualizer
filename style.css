@@ -8,6 +8,7 @@
 :root {
     --green: rgb(0, 160, 0);
     --darkGreen: rgb(0, 105, 0);
+    --container-radius: 2rem;
 }
 
 a{
@@ -132,10 +133,17 @@ input[type="radio"]:checked {
     width: 100%;
     flex: 1;
     padding: 1rem;
+    border-bottom-left-radius: var(--container-radius);
+    border-bottom-right-radius: var(--container-radius);
+}
+
+.graph-input-outer-container {
+    border-top-right-radius: var(--container-radius);
 }
 
 .graph-output-outer-container {
     align-items: flex-end;
+    border-top-left-radius: var(--container-radius);
 }
 
 .graph-input-form {
@@ -154,6 +162,12 @@ input[type="radio"]:checked {
     font-weight: 800;
     outline: none;
     border: none;
+    border-radius: 1rem;
+    transition: background-color 0.5s ease;
+}
+
+.graph-input-form-btn:hover {
+    background-color: var(--darkGreen);
 }
 
 #graph-input {
@@ -164,7 +178,7 @@ input[type="radio"]:checked {
     padding: 1rem;
     outline: none;
     border: none;
-    border-radius: 1rem;
+    border-radius: 1.25rem;
 }
 
 #graph-input::placeholder {
@@ -173,6 +187,15 @@ input[type="radio"]:checked {
 
 /* -------------graph container--------------- */
 
+
+/* -------------graph canvas--------------- */
+
+#graph-canvas {
+    width: 90%;
+    border: 1px solid var(--green);
+}
+
+/* -------------graph canvas--------------- */
 
 /* -----------------------------------footer-- */
 
@@ -306,3 +329,23 @@ footer {
 }
 
 /* -----------------------------------footer-- */
+
+
+
+/* mobile styles */
+@media (max-width: 1024px) {
+    .graph-container {
+        display: flex;
+        flex-direction: column;
+        margin-top: 6rem;
+    }
+    .input-container, .output-container {
+        width: 100%;
+        align-items: center;
+    }
+    .graph-form-btn-container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+}
