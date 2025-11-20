@@ -231,10 +231,34 @@ function resetForm() {
 /*------- draw graph  ------*/
 
 function drawGraph(graph) {
-    console.log("Draw")
+
+    const svg_width = 800;
+    const svg_height = 700;
+    const radius = 200;
+
+    const positions = calculatePositions(graph, svg_width, svg_height, radius);
+    console.log(positions)
+
 }
 
+function calculatePositions(graph, width, height, radius) {
+    const centerX = width / 2;
+    const centerY = height / 2;
+    const totalNodes = graph.nodes.length;
+    const nodes = graph.nodes;
+    const positions = {};
+    for(let i = 0 ; i < totalNodes ; i++) {
+        const node = nodes[i];
+        const angle = (2 * Math.PI * i) / totalNodes - (Math.PI / 2);
 
+        const x = centerX + radius * Math.cos(angle);
+        const y = centerY + radius * Math.sin(angle);
+
+        positions[node] = {x:x, y:y};
+    }
+
+    return positions;
+}
 /*------- draw graph  ------*/
 
 
