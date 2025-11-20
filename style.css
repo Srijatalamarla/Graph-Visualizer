@@ -190,8 +190,7 @@ input[type="radio"]:checked {
 
 /* -------------graph canvas--------------- */
 
-#graph-canvas {
-    width: 90%;
+#graph {
     border: 1px solid var(--green);
 }
 

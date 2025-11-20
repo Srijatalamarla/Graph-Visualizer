@@ -233,11 +233,28 @@ function resetForm() {
 function drawGraph(graph) {
 
     const svg_width = 800;
-    const svg_height = 700;
+    const svg_height = 600;
     const radius = 200;
 
+    //calculate positions of nodes - circular layout
     const positions = calculatePositions(graph, svg_width, svg_height, radius);
-    console.log(positions)
+    console.log(positions);
+
+    //set up svg container
+    const graphArea = document.querySelector(".graph-display-area");
+    const graphSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+
+    graphSVG.setAttribute("width", svg_width);
+    graphSVG.setAttribute("height", svg_height);
+
+    graphSVG.setAttribute("viewBox", `0 0 ${svg_width} ${svg_height}`);
+    graphSVG.setAttribute("id", "graph");
+
+
+    graphArea.replaceChildren(graphSVG);
+
+    //draw edges
+    drawEdges(graphSVG, graph.edges, positions);
 
 }
 
@@ -258,6 +275,10 @@ function calculatePositions(graph, width, height, radius) {
     }
 
     return positions;
+}
+
+function drawEdges(svg, edges, positions) {
+    console.log(edges);
 }
 /*------- draw graph  ------*/
 
