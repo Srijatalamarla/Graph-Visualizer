@@ -1,3 +1,4 @@
+const svgNS = "http://www.w3.org/2000/svg";
 const form = document.getElementById("graph-input-form");
 
 const graphInputArea = document.getElementById('graph-input');
@@ -242,7 +243,7 @@ function drawGraph(graph) {
 
     //set up svg container
     const graphArea = document.querySelector(".graph-display-area");
-    const graphSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    const graphSVG = document.createElementNS(svgNS, "svg");
 
     graphSVG.setAttribute("width", svg_width);
     graphSVG.setAttribute("height", svg_height);
@@ -254,7 +255,10 @@ function drawGraph(graph) {
     graphArea.replaceChildren(graphSVG);
 
     //draw edges
-    drawEdges(graphSVG, graph.edges, positions);
+    drawEdges(graphSVG, graph.edges, positions, graph.isDirected, graph.isWeighted);
+
+    //draw nodes
+    drawNodes(graphSVG, positions);
 
 }
 
@@ -263,7 +267,7 @@ function calculatePositions(graph, width, height, radius) {
     const centerY = height / 2;
     const totalNodes = graph.nodes.length;
     const nodes = graph.nodes;
-    const positions = {};
+    const positions = [];
     for(let i = 0 ; i < totalNodes ; i++) {
         const node = nodes[i];
         const angle = (2 * Math.PI * i) / totalNodes - (Math.PI / 2);
@@ -277,9 +281,40 @@ function calculatePositions(graph, width, height, radius) {
     return positions;
 }
 
-function drawEdges(svg, edges, positions) {
-    console.log(edges);
+function drawEdges(svg, edges, position, isDirected, isWeighted) {
+    edges.forEach((edge) => {
+        const line = document.createElementNS(svgNS, "line");
+        // line.setAttribute("id", "line");
+        line.setAttribute("x1", position[edge.from].x);
+        line.setAttribute("y1", position[edge.from].y);
+        line.setAttribute("x2", position[edge.to].x);
+        line.setAttribute("y2", position[edge.to].y);
+        line.setAttribute("stroke", "black");
+        svg.appendChild(line);
+    });
 }
+
+function drawNodes(svg, positions) {
+    positions.forEach((node, index) => {
+        const circle = document.createElementNS(svgNS, "circle");
+        // circle.setAttribute("id", "circle");
+        circle.setAttribute("cx", node.x);
+        circle.setAttribute("cy", node.y);
+        circle.setAttribute("r", 30);
+        circle.setAttribute("fill", "green");
+
+        const nodeLabel = document.createElementNS(svgNS, "text");
+        nodeLabel.innerHTML = index;
+        // nodeLabel.setAttribute("id", index);
+        nodeLabel.setAttribute("x", node.x);
+        nodeLabel.setAttribute("y", node.y);
+        // nodeLabel.setAttribute("font-size", "14");
+
+        svg.appendChild(circle);
+        svg.appendChild(nodeLabel);
+    });
+}
+
 /*------- draw graph  ------*/
 
 

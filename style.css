@@ -194,6 +194,15 @@ input[type="radio"]:checked {
     border: 1px solid var(--green);
 }
 
+text {
+    font-family: initial;
+    font-weight: 700;
+    text-anchor: middle;
+    fill: white;
+    font-size: 1.5rem;
+    alignment-baseline: middle;
+}
+
 /* -------------graph canvas--------------- */
 
 /* -----------------------------------footer-- */
