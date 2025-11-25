@@ -251,11 +251,12 @@ function drawGraph(graph) {
     graphSVG.setAttribute("viewBox", `0 0 ${svg_width} ${svg_height}`);
     graphSVG.setAttribute("id", "graph");
 
+    // graphSVG.addEventListener("click", removeEdgeHighlight);
 
     graphArea.replaceChildren(graphSVG);
 
     //draw edges
-    drawEdges(graphSVG, graph.edges, positions, graph.isDirected, graph.isWeighted);
+    drawEdges(graphSVG, graph.edges, positions, graph.directed, graph.weighted);
 
     //draw nodes
     drawNodes(graphSVG, positions);
@@ -283,14 +284,34 @@ function calculatePositions(graph, width, height, radius) {
 
 function drawEdges(svg, edges, position, isDirected, isWeighted) {
     edges.forEach((edge) => {
+        const x1 = position[edge.from].x;
+        const y1 = position[edge.from].y;
+        const x2 = position[edge.to].x;
+        const y2 = position[edge.to].y;
         const line = document.createElementNS(svgNS, "line");
-        // line.setAttribute("id", "line");
-        line.setAttribute("x1", position[edge.from].x);
-        line.setAttribute("y1", position[edge.from].y);
-        line.setAttribute("x2", position[edge.to].x);
-        line.setAttribute("y2", position[edge.to].y);
+        line.setAttribute("class", "edge");
+        line.setAttribute("x1", x1);
+        line.setAttribute("y1", y1);
+        line.setAttribute("x2", x2);
+        line.setAttribute("y2", y2);
         line.setAttribute("stroke", "black");
+
         svg.appendChild(line);
+
+        if(isWeighted) {
+            const weightLabel = document.createElementNS(svgNS, "text");
+            const midPoint = calculateMidPoint(x1, y1, x2, y2);
+
+            weightLabel.setAttribute("x", midPoint.x);
+            weightLabel.setAttribute("y", midPoint.y);
+            weightLabel.setAttribute("dx", "2%");
+            weightLabel.setAttribute("dy", "2%");
+            weightLabel.innerHTML = edge.weight;
+            weightLabel.setAttribute("class", "weight-label");
+            weightLabel.addEventListener("click", () => highlightEdge(line));
+
+            svg.appendChild(weightLabel);
+        }
     });
 }
 
@@ -305,13 +326,30 @@ function drawNodes(svg, positions) {
 
         const nodeLabel = document.createElementNS(svgNS, "text");
         nodeLabel.innerHTML = index;
-        // nodeLabel.setAttribute("id", index);
+        nodeLabel.setAttribute("class", "node-label");
         nodeLabel.setAttribute("x", node.x);
         nodeLabel.setAttribute("y", node.y);
-        // nodeLabel.setAttribute("font-size", "14");
 
         svg.appendChild(circle);
         svg.appendChild(nodeLabel);
+    });
+}
+
+function calculateMidPoint(x1, y1, x2, y2) {
+    const midPoint = {};
+    midPoint["x"] = (x1 + x2) / 2;
+    midPoint["y"] = (y1 + y2) / 2;
+    return midPoint;
+}
+
+function highlightEdge(line) {
+    line.classList.toggle("highlight");
+}
+
+function removeEdgeHighlight() {
+    const edges = document.querySelectorAll(".edge");
+    edges.forEach((edge) => {
+        edge.classList.remove("highlight");
     });
 }
 
