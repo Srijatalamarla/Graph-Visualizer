@@ -236,6 +236,7 @@ function drawGraph(graph) {
     const svg_width = 800;
     const svg_height = 600;
     const radius = 200;
+    const nodeRadius = 30;
 
     //calculate positions of nodes - circular layout
     const positions = calculatePositions(graph, svg_width, svg_height, radius);
@@ -256,10 +257,10 @@ function drawGraph(graph) {
     graphArea.replaceChildren(graphSVG);
 
     //draw edges
-    drawEdges(graphSVG, graph.edges, positions, graph.directed, graph.weighted);
+    drawEdges(graphSVG, graph.edges, positions, graph.directed, graph.weighted, nodeRadius);
 
     //draw nodes
-    drawNodes(graphSVG, positions);
+    drawNodes(graphSVG, positions, nodeRadius);
 
 }
 
@@ -282,12 +283,50 @@ function calculatePositions(graph, width, height, radius) {
     return positions;
 }
 
-function drawEdges(svg, edges, position, isDirected, isWeighted) {
+function drawEdges(svg, edges, position, isDirected, isWeighted, nodeRadius) {
+
+    if(isDirected) {
+            const defs = document.createElementNS(svgNS, "defs");
+            const arrowMarker = document.createElementNS(svgNS, "marker");
+            arrowMarker.setAttribute("id", "arrow");
+            arrowMarker.setAttribute("viewBox", "0 0 10 10");
+            arrowMarker.setAttribute("markerWidth", 10);
+            arrowMarker.setAttribute("markerHeight", 10);
+            arrowMarker.setAttribute("refX", 10);
+            arrowMarker.setAttribute("refY", 5);
+            arrowMarker.setAttribute("orient", "auto");
+
+            const arrowPath = "M 0 0 L 10 5 L 0 10 z";
+            const path = document.createElementNS(svgNS, "path");
+            path.setAttribute("d", arrowPath)
+            path.setAttribute("fill", "black");
+
+            arrowMarker.appendChild(path);
+            defs.appendChild(arrowMarker);
+
+            console.log(defs);
+            console.log(arrowMarker);
+            console.log(path);
+
+            svg.appendChild(defs);
+    }
+
     edges.forEach((edge) => {
-        const x1 = position[edge.from].x;
-        const y1 = position[edge.from].y;
-        const x2 = position[edge.to].x;
-        const y2 = position[edge.to].y;
+        let x1 = position[edge.from].x;
+        let y1 = position[edge.from].y;
+        let x2 = position[edge.to].x;
+        let y2 = position[edge.to].y;
+
+
+        // ------ FIX: shorten the line so arrow is not hidden behind circle ------
+        const dx = x2 - x1;
+        const dy = y2 - y1;
+        const len = Math.sqrt(dx*dx + dy*dy);
+        const r = nodeRadius; // node radius
+
+        x2 = x2 - (dx / len) * r;
+        y2 = y2 - (dy / len) * r;
+
         const line = document.createElementNS(svgNS, "line");
         line.setAttribute("class", "edge");
         line.setAttribute("x1", x1);
@@ -296,12 +335,15 @@ function drawEdges(svg, edges, position, isDirected, isWeighted) {
         line.setAttribute("y2", y2);
         line.setAttribute("stroke", "black");
 
-        svg.appendChild(line);
-
+        
+        if(isDirected) {
+            line.setAttribute("marker-end", 'url(#arrow)');
+        }
+        
         if(isWeighted) {
             const weightLabel = document.createElementNS(svgNS, "text");
             const midPoint = calculateMidPoint(x1, y1, x2, y2);
-
+            
             weightLabel.setAttribute("x", midPoint.x);
             weightLabel.setAttribute("y", midPoint.y);
             weightLabel.setAttribute("dx", "2%");
@@ -309,19 +351,20 @@ function drawEdges(svg, edges, position, isDirected, isWeighted) {
             weightLabel.innerHTML = edge.weight;
             weightLabel.setAttribute("class", "weight-label");
             weightLabel.addEventListener("click", () => highlightEdge(line));
-
+            
             svg.appendChild(weightLabel);
         }
+        svg.appendChild(line);
     });
 }
 
-function drawNodes(svg, positions) {
+function drawNodes(svg, positions, nodeRadius) {
     positions.forEach((node, index) => {
         const circle = document.createElementNS(svgNS, "circle");
         // circle.setAttribute("id", "circle");
         circle.setAttribute("cx", node.x);
         circle.setAttribute("cy", node.y);
-        circle.setAttribute("r", 30);
+        circle.setAttribute("r", nodeRadius);
         circle.setAttribute("fill", "green");
 
         const nodeLabel = document.createElementNS(svgNS, "text");
