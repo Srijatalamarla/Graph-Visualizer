@@ -12,6 +12,9 @@ const graphEdgesElement = document.getElementById("graph-edges");
 
 const errorDiv = document.querySelector("#error");
 
+
+const graphArea = document.querySelector(".graph-display-area");
+
 /*------- graph input placeholder functionality ------*/
 
 
@@ -212,11 +215,19 @@ graphInputArea.addEventListener('input', () => {
 /*------- graph input validation ------*/
 
 
-/*------- clear graph input ------*/
+/*------- clear graph input and output------*/
 function resetForm() {
 
     form.reset();
 
+    clearErrors();
+
+    updateGraphPlaceholder();
+    clearGraph();
+}
+
+function clearErrors() {
+    
     errorDiv.innerHTML = ``;
 
     //remove error highlight if any
@@ -224,9 +235,14 @@ function resetForm() {
     graphWeightElement.classList.remove("error");
     graphEdgesElement.classList.remove("error");
 
-    updateGraphPlaceholder();
 }
-/*------- clear graph input ------*/
+
+
+function clearGraph() {
+    graphArea.innerHTML = ``;
+}
+
+/*------- clear graph input and output------*/
 
 
 /*------- draw graph  ------*/
@@ -243,7 +259,6 @@ function drawGraph(graph) {
     console.log(positions);
 
     //set up svg container
-    const graphArea = document.querySelector(".graph-display-area");
     const graphSVG = document.createElementNS(svgNS, "svg");
 
     graphSVG.setAttribute("width", svg_width);
