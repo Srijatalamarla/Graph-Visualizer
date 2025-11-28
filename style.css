@@ -187,6 +187,30 @@ input[type="radio"]:checked {
 
 /* -------------graph container--------------- */
 
+/* -------------error div ---------- */
+
+#error.active {
+    background-color: #ffa7a7a6;
+    border-radius: 1rem;
+    padding: 1rem;
+    color: #930000;
+    margin-top: 1rem;
+}
+
+#error.active ul {
+    padding-left: 1rem;
+}
+
+#error.active ul li a {
+    color: red;
+}
+
+#error.active ul li a:hover {
+    text-decoration: underline;
+}
+
+/* -------------error div ---------- */
+
 
 /* -------------graph canvas--------------- */
 

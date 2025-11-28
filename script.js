@@ -151,12 +151,13 @@ function validateInput(event) {
 
 
     //if all are valid
-    if (isValid)
+    if (isValid) {
         convertIntoJSON(event)
+    }
     else {
         const errorMsg = document.createElement('div');
         errorMsg.innerHTML = `
-            There was an error in your input
+            Error(s) in input
         `;
         const errorListElement = document.createElement('ul');
         errorList.forEach((err) => errorListElement.appendChild(err));
@@ -164,6 +165,7 @@ function validateInput(event) {
         
         //add to page
         errorDiv.innerHTML = ``;
+        errorDiv.classList.add("active");
         errorDiv.replaceChildren(errorMsg);
     }
 }
@@ -229,6 +231,7 @@ function resetForm() {
 function clearErrors() {
     
     errorDiv.innerHTML = ``;
+    errorDiv.classList.remove("active");
 
     //remove error highlight if any
     graphTypeElement.classList.remove("error");
