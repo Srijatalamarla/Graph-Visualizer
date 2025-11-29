@@ -280,7 +280,7 @@ function drawGraph(graph) {
     drawEdges(graphSVG, graph.edges, positions, graph.directed, graph.weighted, nodeRadius);
 
     //draw nodes
-    drawNodes(graphSVG, positions, nodeRadius);
+    drawNodes(graphSVG, graph.nodes, positions, nodeRadius);
 
 }
 
@@ -378,20 +378,21 @@ function drawEdges(svg, edges, position, isDirected, isWeighted, nodeRadius) {
     });
 }
 
-function drawNodes(svg, positions, nodeRadius) {
-    positions.forEach((node, index) => {
+function drawNodes(svg, nodes, positions, nodeRadius) {
+    nodes.forEach((node) => {
+        const position = positions[node];
         const circle = document.createElementNS(svgNS, "circle");
         // circle.setAttribute("id", "circle");
-        circle.setAttribute("cx", node.x);
-        circle.setAttribute("cy", node.y);
+        circle.setAttribute("cx", position.x);
+        circle.setAttribute("cy", position.y);
         circle.setAttribute("r", nodeRadius);
         circle.setAttribute("fill", "green");
 
         const nodeLabel = document.createElementNS(svgNS, "text");
-        nodeLabel.innerHTML = index;
+        nodeLabel.innerHTML = node;
         nodeLabel.setAttribute("class", "node-label");
-        nodeLabel.setAttribute("x", node.x);
-        nodeLabel.setAttribute("y", node.y);
+        nodeLabel.setAttribute("x", position.x);
+        nodeLabel.setAttribute("y", position.y);
 
         svg.appendChild(circle);
         svg.appendChild(nodeLabel);
