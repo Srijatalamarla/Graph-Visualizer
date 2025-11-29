@@ -185,6 +185,21 @@ input[type="radio"]:checked {
     color: white;
 }
 
+.graph-display-area {
+    height: 90%;
+    width: 100%;
+    background-color: #b8ffb83b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1rem;
+}
+
+.no-graph {
+    font-size: 2rem;
+    letter-spacing: 2px;
+}
+
 /* -------------graph container--------------- */
 
 /* -------------error div ---------- */

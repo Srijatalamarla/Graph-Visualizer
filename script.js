@@ -34,7 +34,9 @@ function updateGraphPlaceholder() {
 }
 
 // Set placeholder on page load
-window.addEventListener('load', updateGraphPlaceholder);
+window.addEventListener('load', () => {
+    resetForm();
+});
 
 // Update placeholder on radio change
 graphWeightBtns.forEach(btn => btn.addEventListener('change', updateGraphPlaceholder));
@@ -242,7 +244,7 @@ function clearErrors() {
 
 
 function clearGraph() {
-    graphArea.innerHTML = ``;
+    graphArea.innerHTML = `<div class="no-graph">No Data to display</div>`;
 }
 
 /*------- clear graph input and output------*/
