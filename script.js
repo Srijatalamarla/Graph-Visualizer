@@ -15,6 +15,8 @@ const errorDiv = document.querySelector("#error");
 
 const graphArea = document.querySelector(".graph-display-area");
 
+let errorList = [];
+
 /*------- graph input placeholder functionality ------*/
 
 
@@ -109,8 +111,6 @@ form.addEventListener('submit', (event) => {
 function validateInput(event) {
     let isValid = true;
 
-    let errorList = [];
-
 
     //check graph type
     if( !graphTypeBtns[0].checked && !graphTypeBtns[1].checked) {
@@ -145,30 +145,19 @@ function validateInput(event) {
     else if(checkEdgesFormat(graphEdges, isWeighted) == false) {
         isValid = false;
 
-        const errrorElement = createErrorElement('#graph-input', 'Invalid Format', graphEdgesElement);
+        const errorElement = createErrorElement('#graph-input', 'Invalid Format', graphEdgesElement);
 
-        errorList.push(errrorElement);
+        errorList.push(errorElement);
     }
-
-
-
+    
+    
+    
     //if all are valid
     if (isValid) {
         convertIntoJSON(event)
     }
     else {
-        const errorMsg = document.createElement('div');
-        errorMsg.innerHTML = `
-            Error(s) in input
-        `;
-        const errorListElement = document.createElement('ul');
-        errorList.forEach((err) => errorListElement.appendChild(err));
-        errorMsg.appendChild(errorListElement);
-        
-        //add to page
-        errorDiv.innerHTML = ``;
-        errorDiv.classList.add("active");
-        errorDiv.replaceChildren(errorMsg);
+        updateErrorDiv(errorList);
     }
 }
 
@@ -189,11 +178,35 @@ function createErrorElement(href, textContent, container) {
 
     errorElement.appendChild(link);
 
-    return errorElement;
+    return {
+            id: href,
+            errorElement: errorElement,
+        };
 }
 
 function highlightErrorDiv(divElement) {
     divElement.classList.add("error");
+}
+
+function updateErrorDiv(errorList) {
+        console.log(errorList)
+        if(errorList.length === 0) {
+            errorDiv.innerHTML = ``;
+            errorDiv.classList.remove("active");
+            return;
+        }
+        const errorMsg = document.createElement('div');
+        errorMsg.innerHTML = `
+            Error(s) in input
+        `;
+        const errorListElement = document.createElement('ul');
+        errorList.forEach((err) => errorListElement.appendChild(err.errorElement));
+        errorMsg.appendChild(errorListElement);
+        
+        //add to page
+        errorDiv.innerHTML = ``;
+        errorDiv.classList.add("active");
+        errorDiv.replaceChildren(errorMsg);
 }
 
 //remove highlight when input is entered
@@ -201,6 +214,9 @@ graphTypeBtns.forEach((btn) => {
     btn.addEventListener('change', () => {
         if (graphTypeElement.classList.contains("error"))
             graphTypeElement.classList.remove("error");
+            errorList = errorList.filter(err => err.id !== "#graph-type");
+            //update error div after removing errors
+            updateErrorDiv(errorList);
     });
 });
 
@@ -208,14 +224,24 @@ graphWeightBtns.forEach((btn) => {
     btn.addEventListener('change', () => {
         if(graphWeightElement.classList.contains("error"))
             graphWeightElement.classList.remove("error");
+            errorList = errorList.filter(err => err.id !== "#graph-weight");
+            //update error div after removing errors
+            updateErrorDiv(errorList);
     });
 });
 
 graphInputArea.addEventListener('input', () => {
     if (graphInputArea.value.trim() !== "" && graphEdgesElement.classList.contains("error")) {
         graphEdgesElement.classList.remove("error");
+        errorList = errorList.filter(err => err.id !== "#graph-input");
+        console.log(errorList)
+        //update error div after removing errors
+        updateErrorDiv(errorList);
     }
 });
+
+
+
 /*------- graph input validation ------*/
 
 
