@@ -78,6 +78,19 @@ function convertIntoJSON(event) {
         const from = vertices[0];
         const to = vertices[1];
 
+        //check for duplicate edges
+        const isDuplicate = edgeList.some((e) => {
+            if(isDirected) {
+                return from === e.from && to === e.to;
+            }
+            else {
+                return (from === e.from && to === e.to) || (from === e.to && to === e.from);
+            }
+        });
+
+
+        if(isDuplicate) return;
+
         if (isWeighted) {
             const weight = vertices[2];
             edgeList.push({ "from": from, "to": to, "weight": weight });
@@ -315,7 +328,7 @@ function calculatePositions(graph, width, height, radius) {
     const centerY = height / 2;
     const totalNodes = graph.nodes.length;
     const nodes = graph.nodes;
-    const positions = [];
+    const positions = {};
     for(let i = 0 ; i < totalNodes ; i++) {
         const node = nodes[i];
         const angle = (2 * Math.PI * i) / totalNodes - (Math.PI / 2);
