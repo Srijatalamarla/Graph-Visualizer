@@ -58,6 +58,7 @@ header {
     align-items: center;
     padding: 128px 82px 50px 82px;
     color: white;
+    text-align: center;
 }
 
 /* -----------------------------------header-- */
@@ -180,6 +181,7 @@ input[type="radio"]:checked {
     outline: none;
     border: none;
     border-radius: 1.25rem;
+    width: 60%;
 }
 
 #graph-input::placeholder {
@@ -194,6 +196,7 @@ input[type="radio"]:checked {
     align-items: center;
     justify-content: center;
     border-radius: 1rem;
+    padding: 1rem;
 }
 
 .no-graph {
@@ -400,14 +403,31 @@ footer {
         display: flex;
         flex-direction: column;
         margin-top: 6rem;
+        height: max-content;
     }
     .input-container, .output-container {
         width: 100%;
-        align-items: center;
+    }
+    .output-container {
+        margin-bottom: 6rem;
     }
     .graph-form-btn-container {
         display: flex;
         justify-content: center;
+        gap: 1rem;
         flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 500px) {
+    #title {
+        padding-top: 140px;
+        padding-bottom: 30px;
+    }
+    #graph-input {
+        width: 100%;
+    }
+    .node-label, .weight-label {
+        font-size: 1rem;
     }
 }

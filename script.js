@@ -293,10 +293,10 @@ function clearGraph() {
 
 function drawGraph(graph) {
 
-    const svg_width = 800;
-    const svg_height = 600;
-    const radius = 200;
-    const nodeRadius = 30;
+    const svg_width = graphArea.clientWidth;
+    const svg_height = graphArea.clientHeight;
+    const radius = Math.min(svg_width, svg_height) * 0.4;
+    const nodeRadius = Math.min(svg_width, svg_height) * 0.05;
 
     //calculate positions of nodes - circular layout
     const positions = calculatePositions(graph, svg_width, svg_height, radius);
