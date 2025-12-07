@@ -15,6 +15,7 @@ const errorDiv = document.querySelector("#error");
 
 const graphArea = document.querySelector(".graph-display-area");
 
+let graph = {};
 let errorList = [];
 
 /*------- graph input placeholder functionality ------*/
@@ -107,7 +108,7 @@ function convertIntoJSON(event) {
     graphInputJSON["nodes"] = Array.from(nodeSet);
 
     console.log(graphInputJSON);
-    drawGraph(graphInputJSON);
+    return graphInputJSON;
 }
 
 
@@ -167,7 +168,8 @@ function validateInput(event) {
     
     //if all are valid
     if (isValid) {
-        convertIntoJSON(event)
+        graph = convertIntoJSON(event)
+        drawGraph(graph);
     }
     else {
         updateErrorDiv(errorList);
@@ -290,6 +292,11 @@ function clearGraph() {
 
 
 /*------- draw graph  ------*/
+
+window.addEventListener('resize', () => {
+    console.log("Resized");
+    if(graph)   drawGraph(graph);
+});
 
 function drawGraph(graph) {
 
