@@ -246,8 +246,8 @@ graphWeightBtns.forEach((btn) => {
 });
 
 graphInputArea.addEventListener('input', () => {
-    if (graphInputArea.value.trim() !== "" && graphEdgesElement.classList.contains("error")) {
-        graphEdgesElement.classList.remove("error");
+    if (graphInputArea.value.trim() !== "") {
+        if(graphEdgesElement.classList.contains("error")) graphEdgesElement.classList.remove("error");
         errorList = errorList.filter(err => err.id !== "#graph-input");
         console.log(errorList)
         //update error div after removing errors
