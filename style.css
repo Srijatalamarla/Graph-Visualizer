@@ -9,6 +9,7 @@
     --green: rgb(0, 160, 0);
     --darkGreen: rgb(0, 105, 0);
     --container-radius: 2rem;
+    --box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 a{
@@ -126,17 +127,19 @@ input[type="radio"]:checked {
     color: white;
     border-top-left-radius: 3rem;
     border-top-right-radius: 3rem;
+    box-shadow: var(--box-shadow);
 }
 
 .graph-input-outer-container, .graph-output-outer-container {
     display: flex;
     flex-direction: column;
-    border: 2px solid var(--green);
+    /* border: 2px solid var(--green); */
     width: 100%;
     flex: 1;
     padding: 1rem;
     border-bottom-left-radius: var(--container-radius);
     border-bottom-right-radius: var(--container-radius);
+    box-shadow: var(--box-shadow);
 }
 
 .graph-input-outer-container {
