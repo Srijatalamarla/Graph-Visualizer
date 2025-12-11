@@ -295,7 +295,8 @@ function clearGraph() {
 
 window.addEventListener('resize', () => {
     console.log("Resized");
-    if(graph)   drawGraph(graph);
+    //if not empty
+    if(JSON.stringify(graph) !== '{}')   drawGraph(graph);
 });
 
 function drawGraph(graph) {

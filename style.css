@@ -413,7 +413,7 @@ footer {
     }
     .graph-form-btn-container {
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
         gap: 1rem;
         flex-wrap: wrap;
     }
@@ -426,6 +426,9 @@ footer {
     }
     #graph-input {
         width: 100%;
+    }
+    .graph-form-btn-container {
+        justify-content: center;
     }
     .node-label, .weight-label {
         font-size: 1rem;
