@@ -161,6 +161,7 @@ input[type="radio"]:checked {
 
 .graph-input-form-btn {
     background-color: var(--green);
+    box-shadow: var(--box-shadow);
     color: white;
     padding: 0.5rem 1rem;
     font-size: 1.2rem;
@@ -177,6 +178,7 @@ input[type="radio"]:checked {
 
 #graph-input {
     background-color: var(--green);
+    box-shadow: var(--box-shadow);
     color: white;
     font-size: 1rem;
     font-weight: 500;
@@ -205,6 +207,7 @@ input[type="radio"]:checked {
 .no-graph {
     font-size: 2rem;
     letter-spacing: 2px;
+    text-align: center;
 }
 
 /* -------------graph container--------------- */
@@ -237,7 +240,7 @@ input[type="radio"]:checked {
 /* -------------graph canvas--------------- */
 
 #graph {
-    border: 1px solid var(--green);
+    /* border: 1px solid var(--green); */
 }
 
 .node-label {
@@ -405,7 +408,8 @@ footer {
     .graph-container {
         display: flex;
         flex-direction: column;
-        margin-top: 6rem;
+        gap: 1rem;
+        margin-top: 8rem;
         height: max-content;
     }
     .input-container, .output-container {

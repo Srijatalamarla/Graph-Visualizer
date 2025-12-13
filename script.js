@@ -329,6 +329,8 @@ function drawGraph(graph) {
     //draw nodes
     drawNodes(graphSVG, graph.nodes, positions, nodeRadius);
 
+    document.querySelector('.output-container').scrollIntoView({ behavior:"smooth" })
+
 }
 
 function calculatePositions(graph, width, height, radius) {
