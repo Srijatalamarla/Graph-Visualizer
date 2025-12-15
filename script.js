@@ -381,17 +381,62 @@ function drawEdges(svg, edges, position, isDirected, isWeighted, nodeRadius) {
     }
 
     edges.forEach((edge) => {
+        
         let x1 = position[edge.from].x;
         let y1 = position[edge.from].y;
         let x2 = position[edge.to].x;
         let y2 = position[edge.to].y;
+        const r = nodeRadius; // node radius
+        
+        
+        if(edge.from === edge.to) {
+            //self loop
+            const startX = x1;
+            const startY = y1 - r;
 
+            const offsetX = 1.5 * r;
+            const offsetY = 2.0 * r;
 
+            const cx1 = x1 - offsetX;
+            const cy1 = y1 - offsetY;
+
+            const cx2 = x1 + offsetX;
+            const cy2 = y1 - offsetY;
+
+            const path = document.createElementNS(svgNS, "path");
+            path.setAttribute("class", "edge");
+            path.setAttribute("stroke", "black");
+            path.setAttribute("fill", "transparent");
+            
+            let pathData;
+            if(isDirected) {
+                pathData = createCubicBezierPath(startX, startY, cx1, cy1, cx2, cy2, startX + 1, startY);
+                path.setAttribute("marker-end", 'url(#arrow)');
+            }
+            pathData = createCubicBezierPath(startX, startY, cx1, cy1, cx2, cy2, startX, startY);
+
+            path.setAttribute("d", pathData);
+
+            if(isWeighted) {
+                const weightLabel = document.createElementNS(svgNS, "text");
+                
+                weightLabel.setAttribute("x", x1 + 1);
+                weightLabel.setAttribute("y", cy1 + 1) ;
+                weightLabel.innerHTML = edge.weight;
+                weightLabel.setAttribute("class", "weight-label");
+                weightLabel.addEventListener("click", () => highlightEdge(path));
+                
+                svg.appendChild(weightLabel);
+            }
+
+            svg.appendChild(path);
+            console.log(path);
+            return;
+        }
         // ------ FIX: shorten the line so arrow is not hidden behind circle ------
         const dx = x2 - x1;
         const dy = y2 - y1;
         const len = Math.sqrt(dx*dx + dy*dy);
-        const r = nodeRadius; // node radius
 
         x2 = x2 - (dx / len) * r;
         y2 = y2 - (dy / len) * r;
@@ -425,6 +470,11 @@ function drawEdges(svg, edges, position, isDirected, isWeighted, nodeRadius) {
         }
         svg.appendChild(line);
     });
+}
+
+function createCubicBezierPath(startX, startY, cp1X, cp1Y, cp2X, cp2Y, endX, endY) {
+    // M = move to, C = cubic curve
+    return `M ${startX} ${startY} C ${cp1X} ${cp1Y}, ${cp2X} ${cp2Y}, ${endX} ${endY}`;
 }
 
 function drawNodes(svg, nodes, positions, nodeRadius) {

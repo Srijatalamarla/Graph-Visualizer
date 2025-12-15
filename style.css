@@ -261,7 +261,7 @@ input[type="radio"]:checked {
     cursor: pointer;
 }
 
-line.highlight {
+.edge.highlight {
     stroke: red;
     stroke-width: 3px;
 }
