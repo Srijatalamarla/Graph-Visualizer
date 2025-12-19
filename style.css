@@ -274,9 +274,9 @@ input[type="radio"]:checked {
 
 /* -------------graph canvas--------------- */
 
-#graph {
-    /* border: 1px solid var(--green); */
-}
+/* #graph {
+    border: 1px solid var(--green);
+} */
 
 .node-label {
     font-family: initial;
@@ -356,7 +356,7 @@ footer {
     background-color: var(--green);
     color: white;
     padding: 1rem;
-    height: 60vh;
+    /* height: 60vh; */
     width: 70vw;
     border-radius: 16px;
     font-weight: 700
@@ -373,6 +373,14 @@ footer {
     align-items: center;
     gap: 16px;
     padding: 16px 10px 0px 0px;
+}
+
+#footer-form-divider {
+    background-color: rgb(200, 200, 200, 0.5);
+    height: 2px;
+    width: 50%;
+    margin-top: 1rem;
+    border-radius: 1rem;
 }
 
 .footer-form-header-content {
