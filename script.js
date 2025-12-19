@@ -391,8 +391,16 @@ function drawEdges(svg, edges, position, isDirected, isWeighted, nodeRadius) {
         
         if(edge.from === edge.to) {
             //self loop
-            const startX = x1;
-            const startY = y1 - r;
+            const delta = Math.PI / 8; // gap angle (~22.5°)
+
+            const angleStart = -Math.PI / 2 - delta;
+            const angleEnd   = -Math.PI / 2 + delta;
+
+            const startX = x1 + r * Math.cos(angleStart);
+            const startY = y1 + r * Math.sin(angleStart);
+
+            const endX = x1 + r * Math.cos(angleEnd);
+            const endY = y1 + r * Math.sin(angleEnd);
 
             const offsetX = 1.5 * r;
             const offsetY = 2.0 * r;
@@ -408,14 +416,18 @@ function drawEdges(svg, edges, position, isDirected, isWeighted, nodeRadius) {
             path.setAttribute("stroke", "black");
             path.setAttribute("fill", "transparent");
             
-            let pathData;
-            if(isDirected) {
-                pathData = createCubicBezierPath(startX, startY, cx1, cy1, cx2, cy2, startX + 1, startY);
-                path.setAttribute("marker-end", 'url(#arrow)');
-            }
-            pathData = createCubicBezierPath(startX, startY, cx1, cy1, cx2, cy2, startX, startY);
+            const pathData = createCubicBezierPath(
+                startX, startY,
+                cx1, cy1,
+                cx2, cy2,
+                endX, endY
+            );
 
             path.setAttribute("d", pathData);
+
+            if (isDirected) {
+                path.setAttribute("marker-end", "url(#arrow)");
+            }
 
             if(isWeighted) {
                 const weightLabel = document.createElementNS(svgNS, "text");
