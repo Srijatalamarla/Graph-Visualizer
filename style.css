@@ -396,6 +396,7 @@ footer {
 
 .footer-form-item label {
     font-size: 1.2rem;
+    padding-bottom: 0.5rem;
 }
 
 #footer-form-title, #footer-form-description {
@@ -436,10 +437,12 @@ footer {
     border-radius: 1rem;
     font-weight: 700;
     font-size: 1.2rem;
+    transition: background-color 0.5s ease-in-out;
 }
 
 .footer-form-submit:hover {
-    background-color: rgba(255, 255, 255, 0.3);
+    /* background-color: rgba(255, 255, 255, 0.3); */
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
 }
 
 /* -----------------------------------footer-- */
