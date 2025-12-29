@@ -14,6 +14,7 @@ const errorDiv = document.querySelector("#error");
 
 
 const graphArea = document.querySelector(".graph-display-area");
+const downloadBtn = document.querySelector(".download-btn");
 
 let graph = {};
 let errorList = [];
@@ -262,7 +263,7 @@ graphInputArea.addEventListener('input', () => {
 
 /*------- clear graph input and output------*/
 function resetForm() {
-
+    console.log("Reset");
     form.reset();
 
     clearErrors();
@@ -286,6 +287,7 @@ function clearErrors() {
 
 function clearGraph() {
     graphArea.innerHTML = `<div class="no-graph">No Data to display</div>`;
+    downloadBtn.setAttribute('disabled', 'true');
 }
 
 /*------- clear graph input and output------*/
@@ -311,6 +313,7 @@ function drawGraph(graph) {
 
     graphArea.replaceChildren(graphSVG);
     
+    downloadBtn.removeAttribute('disabled');
     document.querySelector('.output-container').scrollIntoView({ behavior:"smooth" });
 }
 

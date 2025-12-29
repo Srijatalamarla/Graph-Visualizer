@@ -249,6 +249,15 @@ input[type="radio"]:checked {
     border: none;
     color: var(--darkGreen);
     font-size: 1.5rem;
+    padding: 4px 8px 0px 0px;
+    border-radius: 8px;
+}
+
+.download-btn:disabled {
+    background-color: darkgrey;
+    padding: 4px;
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 /* -------------graph container--------------- */
