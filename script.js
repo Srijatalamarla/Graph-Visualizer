@@ -301,8 +301,47 @@ window.addEventListener('resize', () => {
 
 function drawGraph(graph) {
 
+    if(JSON.stringify(graph) === '{}')
+        return;
+
     const svg_width = graphArea.clientWidth;
     const svg_height = graphArea.clientHeight;
+
+    const graphSVG = renderGraph(graph, svg_width, svg_height, false);
+
+    graphArea.replaceChildren(graphSVG);
+    
+    document.querySelector('.output-container').scrollIntoView({ behavior:"smooth" });
+}
+
+function exportGraph() {
+    
+    if(JSON.stringify(graph) === '{}')
+        return;
+
+    const EXPORT_WIDTH = 800;
+    const EXPORT_HEIGHT = 600;
+
+    const exportGraphSVG = renderGraph(graph, EXPORT_WIDTH, EXPORT_HEIGHT, true);
+
+    console.log(exportGraphSVG);
+
+    const serializer = new XMLSerializer();
+    const svgString = serializer.serializeToString(exportGraphSVG);
+
+    const blob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "graph.svg";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+function renderGraph(graph, svg_width, svg_height, forExport) {
+    
     const radius = Math.min(svg_width, svg_height) * 0.4;
     const nodeRadius = Math.min(svg_width, svg_height) * 0.05;
 
@@ -317,19 +356,24 @@ function drawGraph(graph) {
     graphSVG.setAttribute("height", svg_height);
 
     graphSVG.setAttribute("viewBox", `0 0 ${svg_width} ${svg_height}`);
-    graphSVG.setAttribute("id", "graph");
 
-    // graphSVG.addEventListener("click", removeEdgeHighlight);
+    if(forExport === true) {
+        const rect = document.createElementNS(svgNS, "rect");
+        rect.setAttribute("width", svg_width);
+        rect.setAttribute("height", svg_height);
+        rect.setAttribute("fill", "white");
+        graphSVG.appendChild(rect);
+    }
 
-    graphArea.replaceChildren(graphSVG);
+    const edgesGroup = drawEdges(graph.edges, positions, graph.directed, graph.weighted, nodeRadius);
+    const nodesGroup = drawNodes(graph.nodes, positions, nodeRadius);
+    const labelsGroup = drawLabels(graph.nodes, positions);
 
-    //draw edges
-    drawEdges(graphSVG, graph.edges, positions, graph.directed, graph.weighted, nodeRadius);
+    graphSVG.appendChild(edgesGroup);
+    graphSVG.appendChild(nodesGroup);
+    graphSVG.appendChild(labelsGroup);
 
-    //draw nodes
-    drawNodes(graphSVG, graph.nodes, positions, nodeRadius);
-
-    document.querySelector('.output-container').scrollIntoView({ behavior:"smooth" })
+    return graphSVG;
 
 }
 
@@ -352,7 +396,9 @@ function calculatePositions(graph, width, height, radius) {
     return positions;
 }
 
-function drawEdges(svg, edges, position, isDirected, isWeighted, nodeRadius) {
+function drawEdges(edges, position, isDirected, isWeighted, nodeRadius) {
+    
+    const edgesGroup = document.createElementNS(svgNS, "g");
 
     if(isDirected) {
             const defs = document.createElementNS(svgNS, "defs");
@@ -377,7 +423,7 @@ function drawEdges(svg, edges, position, isDirected, isWeighted, nodeRadius) {
             console.log(arrowMarker);
             console.log(path);
 
-            svg.appendChild(defs);
+            edgesGroup.appendChild(defs);
     }
 
     edges.forEach((edge) => {
@@ -438,11 +484,11 @@ function drawEdges(svg, edges, position, isDirected, isWeighted, nodeRadius) {
                 weightLabel.setAttribute("class", "weight-label");
                 weightLabel.addEventListener("click", () => highlightEdge(path));
                 
-                svg.appendChild(weightLabel);
+                edgesGroup.appendChild(weightLabel);
             }
 
-            svg.appendChild(path);
-            console.log(path);
+            edgesGroup.appendChild(path);
+            // console.log(path);
             return;
         }
         // ------ FIX: shorten the line so arrow is not hidden behind circle ------
@@ -478,10 +524,11 @@ function drawEdges(svg, edges, position, isDirected, isWeighted, nodeRadius) {
             weightLabel.setAttribute("class", "weight-label");
             weightLabel.addEventListener("click", () => highlightEdge(line));
             
-            svg.appendChild(weightLabel);
+            edgesGroup.appendChild(weightLabel);
         }
-        svg.appendChild(line);
+        edgesGroup.appendChild(line);
     });
+    return edgesGroup;
 }
 
 function createCubicBezierPath(startX, startY, cp1X, cp1Y, cp2X, cp2Y, endX, endY) {
@@ -489,15 +536,28 @@ function createCubicBezierPath(startX, startY, cp1X, cp1Y, cp2X, cp2Y, endX, end
     return `M ${startX} ${startY} C ${cp1X} ${cp1Y}, ${cp2X} ${cp2Y}, ${endX} ${endY}`;
 }
 
-function drawNodes(svg, nodes, positions, nodeRadius) {
+function drawNodes(nodes, positions, nodeRadius) {
+    
+    const nodesGroup = document.createElementNS(svgNS, "g");
+
     nodes.forEach((node) => {
         const position = positions[node];
         const circle = document.createElementNS(svgNS, "circle");
-        // circle.setAttribute("id", "circle");
         circle.setAttribute("cx", position.x);
         circle.setAttribute("cy", position.y);
         circle.setAttribute("r", nodeRadius);
         circle.setAttribute("fill", "green");
+
+        nodesGroup.appendChild(circle);
+    });
+    return nodesGroup;
+}
+
+function drawLabels(nodes, positions) {
+    const labelsGroup = document.createElementNS(svgNS, "g");
+
+    nodes.forEach((node) => {
+        const position = positions[node];
 
         const nodeLabel = document.createElementNS(svgNS, "text");
         nodeLabel.innerHTML = node;
@@ -505,9 +565,10 @@ function drawNodes(svg, nodes, positions, nodeRadius) {
         nodeLabel.setAttribute("x", position.x);
         nodeLabel.setAttribute("y", position.y);
 
-        svg.appendChild(circle);
-        svg.appendChild(nodeLabel);
+        labelsGroup.appendChild(nodeLabel);
     });
+
+    return labelsGroup;
 }
 
 function calculateMidPoint(x1, y1, x2, y2) {

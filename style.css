@@ -245,6 +245,12 @@ input[type="radio"]:checked {
     text-align: center;
 }
 
+.download-btn {
+    border: none;
+    color: var(--darkGreen);
+    font-size: 1.5rem;
+}
+
 /* -------------graph container--------------- */
 
 /* -------------error div ---------- */
@@ -273,10 +279,6 @@ input[type="radio"]:checked {
 
 
 /* -------------graph canvas--------------- */
-
-/* #graph {
-    border: 1px solid var(--green);
-} */
 
 .node-label {
     font-family: initial;
