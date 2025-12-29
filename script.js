@@ -483,6 +483,13 @@ function drawEdges(edges, position, isDirected, isWeighted, nodeRadius) {
                 weightLabel.innerHTML = edge.weight;
                 weightLabel.setAttribute("class", "weight-label");
                 weightLabel.addEventListener("click", () => highlightEdge(path));
+                weightLabel.setAttribute("style", `
+                    font-family: Arial, Helvetica, sans-serif;
+                    font-size: 1.5rem;
+                    font-weight: 700;
+                    text-anchor: middle;
+                    dominant-baseline: middle;
+                `);
                 
                 edgesGroup.appendChild(weightLabel);
             }
@@ -523,6 +530,13 @@ function drawEdges(edges, position, isDirected, isWeighted, nodeRadius) {
             weightLabel.innerHTML = edge.weight;
             weightLabel.setAttribute("class", "weight-label");
             weightLabel.addEventListener("click", () => highlightEdge(line));
+            weightLabel.setAttribute("style", `
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 1.5rem;
+                font-weight: 700;
+                text-anchor: middle;
+                dominant-baseline: middle;
+            `);
             
             edgesGroup.appendChild(weightLabel);
         }
@@ -564,6 +578,14 @@ function drawLabels(nodes, positions) {
         nodeLabel.setAttribute("class", "node-label");
         nodeLabel.setAttribute("x", position.x);
         nodeLabel.setAttribute("y", position.y);
+        nodeLabel.setAttribute("style", `
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            fill: white;
+            text-anchor: middle;
+            dominant-baseline: middle;
+        `);
 
         labelsGroup.appendChild(nodeLabel);
     });
