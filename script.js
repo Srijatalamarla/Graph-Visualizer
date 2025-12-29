@@ -120,10 +120,22 @@ function convertIntoJSON(event) {
 
 form.addEventListener('submit', (event) => {
     event.preventDefault();
-    validateInput(event);
+    const isValid = validateInput();
+    
+    //if all are valid
+    if (isValid) {
+        graph = convertIntoJSON(event)
+        drawGraph(graph);
+        
+        downloadBtn.removeAttribute('disabled');
+        document.querySelector('.output-container').scrollIntoView({ behavior:"smooth" });
+    }
+    else {
+        updateErrorDiv(errorList);
+    }
 });
 
-function validateInput(event) {
+function validateInput() {
     let isValid = true;
 
 
@@ -166,15 +178,7 @@ function validateInput(event) {
     }
     
     
-    
-    //if all are valid
-    if (isValid) {
-        graph = convertIntoJSON(event)
-        drawGraph(graph);
-    }
-    else {
-        updateErrorDiv(errorList);
-    }
+    return isValid;
 }
 
 function checkEdgesFormat(value, isWeighted) {
@@ -312,9 +316,6 @@ function drawGraph(graph) {
     const graphSVG = renderGraph(graph, svg_width, svg_height, false);
 
     graphArea.replaceChildren(graphSVG);
-    
-    downloadBtn.removeAttribute('disabled');
-    document.querySelector('.output-container').scrollIntoView({ behavior:"smooth" });
 }
 
 function exportGraph() {
