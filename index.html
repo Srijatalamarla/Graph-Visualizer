@@ -50,8 +50,8 @@
                 
                     </div>
                     <div class="graph-form-btn-container">
-                        <button type="submit" class="graph-input-form-btn">Visualize</button>
-                        <button type="reset" class="graph-input-form-btn" onclick="return resetForm()">Clear/Reset</button>
+                        <button type="submit" class="graph-input-form-btn" tabindex="0">Visualize</button>
+                        <button type="reset" class="graph-input-form-btn" onclick="return resetForm()" tabindex="0">Clear/Reset</button>
                     </div>
                 </form>
                 <div id="error"></div>
@@ -62,7 +62,7 @@
             <div class="graph-output-outer-container">
                 <div class="graph-display-area"></div>
                 <div class="graph-export-container">
-                    <button class="download-btn" onclick="exportGraph()"><i class="fa-solid fa-download"></i></button>
+                    <button class="download-btn" onclick="exportGraph()" aria-label="download graph"><i class="fa-solid fa-download"></i></button>
                 </div>
             </div>
         </section>
@@ -70,9 +70,9 @@
     <footer>
         <div class="fluid-container footer-content">
             <!-- query/feedback -->
-            <div><button onclick="openFooterForm()" id="footer-form-button"><i class="fa-solid fa-envelope"></i></button></div>
+            <div><button onclick="openFooterForm()" id="footer-form-open-button" aria-label="Feedback/Query Form"><i class="fa-solid fa-envelope"></i></button></div>
             <!-- github -->
-            <div class="source-code"><a href="https://github.com/Srijatalamarla/Graph-Visualizer" target="_blank"><i class="fa-brands fa-github"></i></a></div>
+            <div class="source-code"><a href="https://github.com/Srijatalamarla/Graph-Visualizer" target="_blank" aria-label="Github Repo Link"><i class="fa-brands fa-github"></i></a></div>
         </div>
     </footer>
     <div class="footer-form-container" style="display: none;">
