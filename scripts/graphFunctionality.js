@@ -25,8 +25,6 @@ export function exportGraph(graph) {
 
     const exportGraphSVG = renderGraph(graph, EXPORT_WIDTH, EXPORT_HEIGHT, true);
 
-    console.log(exportGraphSVG);
-
     const serializer = new XMLSerializer();
     const svgString = serializer.serializeToString(exportGraphSVG);
 
@@ -48,7 +46,6 @@ function renderGraph(graph, svg_width, svg_height, forExport) {
 
     //calculate positions of nodes - circular layout
     const positions = calculatePositions(graph, svg_width, svg_height, radius);
-    console.log(positions);
 
     //set up svg container
     const graphSVG = document.createElementNS(SVGNS, "svg");
@@ -172,7 +169,6 @@ function drawEdges(edges, position, isDirected, isWeighted, nodeRadius) {
             }
 
             edgesGroup.appendChild(path);
-            // console.log(path);
             return;
         }
         // ------ FIX: shorten the line so arrow is not hidden behind circle ------
@@ -242,9 +238,6 @@ function addArrow() {
     arrowMarker.appendChild(path);
     defs.appendChild(arrowMarker);
 
-    console.log(defs);
-    console.log(arrowMarker);
-    console.log(path);
     return defs;
 }
 

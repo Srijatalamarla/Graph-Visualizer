@@ -27,7 +27,6 @@ let errorList = [];
 function updateGraphPlaceholder() {
     const selectedWeight = document.getElementById('weighted').checked;
     graphInputArea.value = ``; //clear if any value is present
-    console.log("update")
 
     if (selectedWeight) {
         // Weighted graph placeholder: node1 node2 weight
@@ -96,6 +95,7 @@ function convertIntoJSON(event) {
         if(isDuplicate) return;
 
         if (isWeighted) {
+            if(vertices.length !== 3)   return;
             const weight = vertices[2];
             edgeList.push({ "from": from, "to": to, "weight": weight });
         } else {
@@ -110,7 +110,7 @@ function convertIntoJSON(event) {
     graphInputJSON["edges"] = edgeList;
     graphInputJSON["nodes"] = Array.from(nodeSet);
     
-    console.log(graphInputJSON);
+    // console.log(graphInputJSON);
     return graphInputJSON;
 }
 
@@ -180,16 +180,33 @@ function validateInput() {
         errorList.push(errorElement);
     }
     
-    
     return isValid;
 }
 
 function checkEdgesFormat(value, isWeighted) {
-    const pattern = isWeighted
-    ? /^(\s*\d+\s+\d+\s+\d+\s*\n?)+$/       // weighted: 3 numbers
-    : /^(\s*\d+\s+\d+\s*\n?)+$/;            // non-weighted: 2 numbers
-    return pattern.test(value.trim());
+    const lines = value.trim().split("\n");
+
+    const unweightedPattern = /^[A-Za-z0-9_]+\s+[A-Za-z0-9_]+$/;
+    const weightedPattern   = /^[A-Za-z0-9_]+\s+[A-Za-z0-9_]+\s+\d+$/;
+
+    for (let line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed) continue;
+
+        if (isWeighted) {
+            if (!weightedPattern.test(trimmed)) {
+                return false;
+            }
+        } else {
+            if (!unweightedPattern.test(trimmed)) {
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
+
 
 /*------- graph input validation ------*/
 
@@ -215,7 +232,7 @@ function highlightErrorDiv(divElement) {
 }
 
 function updateErrorDiv(errorList) {
-        console.log(errorList)
+
         if(errorList.length === 0) {
             errorDiv.innerHTML = ``;
             errorDiv.classList.remove("active");
@@ -260,7 +277,7 @@ graphInputArea.addEventListener('input', () => {
     if (graphInputArea.value.trim() !== "") {
         if(graphEdgesElement.classList.contains("error")) graphEdgesElement.classList.remove("error");
         errorList = errorList.filter(err => err.id !== "#graph-input");
-        console.log(errorList)
+
         //update error div after removing errors
         updateErrorDiv(errorList);
     }
@@ -272,7 +289,6 @@ graphInputArea.addEventListener('input', () => {
 
 /*------- clear graph input and output------*/
 function resetForm() {
-    console.log("Reset");
     form.reset();
 
     clearErrors();
@@ -305,7 +321,6 @@ function clearGraph() {
 /*------- draw graph  ------*/
 
 window.addEventListener('resize', () => {
-    console.log("Resized");
     //if not empty
     if(JSON.stringify(graph) !== '{}')   drawGraph(graph);
 });
